@@ -134,6 +134,14 @@ content_width: "980px"
 #
 night_mode: "auto"
 
+
+authors:
+    tuanio: 
+      name: tuanio
+      github: https://github.com/tuanio
+    goiliace:
+      name: suzikage
+      github: https://github.com/goiliace
 # Code badge setting
 # You can enable or disable the code badge and so on
 # code_badge:
