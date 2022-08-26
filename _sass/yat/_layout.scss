@@ -653,7 +653,7 @@ html {
       color: #ffffffcc;
     }
 
-    .left-vsplit:before {
+    .left-vsplit::after {
       background: #e3e3e388;
     }
 
@@ -771,7 +771,7 @@ html {
   }
 }
 
-.left-vsplit:before {
+.left-vsplit::after {
   content: "";
   display: inline-block;
   width: 1px;
