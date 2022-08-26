@@ -606,13 +606,14 @@ html {
 
     color: $banner-text-color;
     padding: 10px 5px;
-    text-shadow: 1px 1px 2px #33333355;
+    top: 35%;
+    text-shadow: 2px 2px 5px #33333355;
 
     & > *:first-child {
       margin: 0;
 
       > :nth-child(1) {
-        @include relative-font-size(3.9);
+        @include relative-font-size(4.2);
         letter-spacing: -1px;
         margin-bottom: 0.1em;
         font-weight: normal;
