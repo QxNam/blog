@@ -1,7 +1,7 @@
 {%- if page.paginator -%}
-  {%- assign paginator = page.paginator -%}
+{%- assign paginator = page.paginator -%}
 {%- elsif paginator == nil -%}
-  {%- assign paginator = site -%}
+{%- assign paginator = site -%}
 {%- endif -%}
 
 {%- if paginator.posts.size > 0 -%}
@@ -25,17 +25,17 @@
           {{ post.title | escape }}
         </a>
       </h2>
-        
+
       <div class="post-meta">
         {% assign author = site.authors[post.author] %}
-        <span class="left-vsplit post-reading-time"><a class="author-link" href="{{ author.github }}"> <i
+        <span class="left-vsplit post-reading-time"><a class="author-link" href="{{ author.github | # }}"> <i
               class="fa fa-user"></i> {{ author.name }}</a></span>
         <span class="post-date left-vsplit"><i class="fa fa-calendar"></i> {{ post.date | date: date_format }}</span>
         <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> {{ reading_time }}</span>
       </div>
       <a class="post-excerpt" href="{{ post_url }}">
         <p>
-        {{ excerpt }} <span class="read_more">Read More</span>
+          {{ excerpt }} <span class="read_more">Read More</span>
         </p>
       </a>
       <div class="post-tags">
@@ -48,8 +48,5 @@
   </ul>
 
   <!-- Pagination links -->
-  {%- if paginator.posts.size < site.posts.size -%}
-    {%- include views/paginator.html -%}
-  {%- endif -%}
-</div>
-{%- endif -%}
+  {%- if paginator.posts.size < site.posts.size -%} {%- include views/paginator.html -%} {%- endif -%} </div>
+    {%- endif -%}
