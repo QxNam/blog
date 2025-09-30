@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 :root {
   --background: #ffffff;
@@ -23,4 +23,100 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+} */
+
+@import "tailwindcss";
+
+/* ========================================================= */
+/* 1. ĐỊNH NGHĨA BIẾN CSS CHO THEME (Sử dụng class .dark) */
+/* ========================================================= */
+
+/* Chế độ Sáng (Mặc định) */
+:root {
+  --background: #ffffff;      /* Nền chính trắng */
+  --foreground: #171717;      /* Chữ đen/xám đậm */
+  --card-background: #f3f4f6; /* Nền thẻ/navbar sáng (Grey-100) */
+  --toggle-color-bg: #171717; /* Nền nút tối trên nền sáng */
+  --toggle-icon-color: #f59e0b; /* Icon Vàng */
+  --blue-primary: #2563eb;    /* Màu xanh chính (Blue-600) */
+  --blue-secondary: #60a5fa;  /* Màu xanh nhạt (Blue-400) */
+}
+
+/* Chế độ Tối (Khi thẻ <html> có class="dark" - Kích hoạt bằng JS) */
+.dark {
+  --background: #0a0a0a;      /* Nền chính tối */
+  --foreground: #ededed;      /* Chữ trắng nhạt */
+  --card-background: #1f2937; /* Nền thẻ/navbar tối (Gray-800) */
+  --toggle-color-bg: #ffffff; /* Nền nút sáng trên nền tối */
+  --blue-primary: #60a5fa;    /* Màu xanh chính (đổi sang Blue-400 trong dark) */
+  --blue-secondary: #2563eb;
+}
+
+/* @theme inline block (Giữ nguyên cho Next Fonts) */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Áp dụng biến CSS cho toàn bộ Body và thêm Transition */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+
+/* ========================================================= */
+/* 2. STYLE CHO CÁC THÀNH PHẦN KHÁC */
+/* ========================================================= */
+
+/* Style cho Tag Button (Khi không chọn) */
+.tag-button-default {
+    background-color: var(--card-background); /* Nền nhẹ hơn */
+    color: var(--foreground); /* Màu chữ chính */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Style cho Tag Button (Khi được chọn) */
+.tag-button-selected {
+    background-color: var(--blue-primary);
+    color: #ffffff;
+}
+
+/* ========================================================= */
+/* 3. STYLE CHO THEME TOGGLE BUTTON (NÚT CỐ ĐỊNH) */
+/* ========================================================= */
+
+.theme-toggle-container {
+  position: fixed;
+  bottom: 1rem; /* 16px */
+  left: 1rem;  /* 16px */
+  z-index: 9999; /* Z-index rất cao */
+}
+
+.theme-toggle-button {
+  padding: 0.75rem; /* 12px */
+  border-radius: 9999px; /* Tròn hoàn toàn */
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, color 0.5s ease;
+  outline: none;
+  
+  /* Sử dụng biến CSS để đổi màu nút */
+  background-color: var(--toggle-color-bg); 
+  color: var(--toggle-icon-color);
+}
+
+.theme-toggle-button:hover {
+  transform: scale(1.1); 
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.theme-icon {
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
 }

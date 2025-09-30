@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      // Thêm alias cho thư mục gốc của bạn
+      "@/*": ["./src/*"],
+      // THÊM ALIAS NÀY ĐỂ TRUY CẬP THƯ MỤC LIB
+      "@lib/*": ["./lib/*"] 
     }
   }
 }
