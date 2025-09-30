@@ -1,6 +1,7 @@
 'use client'; // QUAN TRỌNG: Khắc phục lỗi event handlers
 
 import Link from 'next/link';
+import Image from 'next/image'; // ⚠️ Cần thêm import Image
 
 export default function Navbar() {
   return (
@@ -18,12 +19,17 @@ export default function Navbar() {
               href="/" 
               className="flex items-center space-x-2 p-1 transition-colors"
             >
-              {/* Ảnh Logo */}
-              <img 
-                src="/logo.png" 
-                alt="namqx Logo" 
-                className="h-15 w-auto rounded-md" 
-              />
+              {/* ⚠️ KHẮC PHỤC CẢNH BÁO <img>: Thay thế <img> bằng <Image /> */}
+              <div className="relative h-8 w-8"> {/* Container để Image hoạt động với 'fill' hoặc đặt kích thước cố định */}
+                  <Image 
+                      src="/logo.png" 
+                      alt="namqx Logo" 
+                      // ⚠️ Đối với logo/ảnh nhỏ, nên dùng kích thước cố định thay vì 'fill'
+                      width={32} 
+                      height={32} 
+                      className="rounded-md" 
+                  />
+              </div>
               
               {/* Chữ Logo - Giữ màu xanh, nhưng dùng biến CSS để đổi sắc độ theo theme */}
               <span 
@@ -57,7 +63,7 @@ function NavLink({ href, text }) {
         transition: 'color 0.3s ease'
       }}
       className="px-3 py-2 rounded-md text-sm font-medium"
-      // Lỗi đã xảy ra ở đây. Giữ lại JS handler sau khi thêm 'use client'
+      // Event handlers vẫn hoạt động do đã có 'use client' ở đầu file
       onMouseEnter={(e) => e.currentTarget.style.color = 'var(--blue-primary)'}
       onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}
     >

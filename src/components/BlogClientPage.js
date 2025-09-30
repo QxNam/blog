@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'; // Đã loại bỏ useEffect
 import Link from 'next/link';
+import Image from 'next/image';
 
 // để đảm bảo nút chuyển đổi hiển thị trên toàn bộ trang (bao gồm cả Portfolio).
 
@@ -45,11 +46,14 @@ export default function BlogClientPage({ initialPosts }) {
 
     return (
         <div>
-            {/* ThemeToggle đã được di chuyển ra component cấp cao hơn */}
-            
             {/* === KHU VỰC LỌC THEO TAG === */}
-            <div className="flex flex-wrap gap-2 mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-inner">
-                <span className="font-semibold text-gray-700 dark:text-gray-300 mr-2">Lọc theo:</span>
+            {/* ⚠️ KHẮC PHỤC THEME: Thay thế bg-white dark:bg-gray-800 bằng inline style */}
+            <div 
+                className="flex flex-wrap gap-2 mb-8 p-4 rounded-lg shadow-inner"
+                style={{ backgroundColor: 'var(--card-background)', color: 'var(--foreground)' }}
+            >
+                {/* ⚠️ KHẮC PHỤC THEME: Xóa class màu chữ Tailwind */}
+                <span className="font-semibold mr-2">Lọc theo:</span>
                 
                 {/* Nút "Xem tất cả" */}
                 <TagButton 
@@ -74,21 +78,23 @@ export default function BlogClientPage({ initialPosts }) {
             {/* === DANH SÁCH BÀI VIẾT ĐÃ LỌC === */}
             <div className="space-y-8">
                 {filteredPosts.length > 0 ? (
-                    filteredPosts.map(({ slug, title, date, tags, image, description }) => ( // Đã thêm image và description
+                    filteredPosts.map(({ slug, title, date, tags, image, description }) => (
                         <PostCard 
                             key={slug} 
                             slug={slug} 
                             title={title} 
                             date={date} 
                             tags={tags} 
-                            image={image} // TRUYỀN IMAGE PROP
-                            description={description} // Truyền description
+                            image={image}
+                            description={description}
                             onTagClick={handleTagClick} 
                         />
                     ))
                 ) : (
-                    <p className="text-center text-gray-500 dark:text-gray-400">
-                        Không tìm thấy bài viết nào với tag "{selectedTag}".
+                    /* ⚠️ KHẮC PHỤC THEME: Xóa class màu chữ Tailwind */
+                    <p className="text-center">
+                        Không tìm thấy bài viết nào với tag &quot;{selectedTag}&quot;. 
+                        {/* ⚠️ KHẮC PHỤC ESLINT: Sử dụng &quot; để thoát ký tự nháy kép */}
                     </p>
                 )}
             </div>
@@ -119,7 +125,7 @@ function TagButton({ tag, label, selectedTag, onClick }) {
 // Component phụ: Thẻ Bài Viết (ĐÃ CẬP NHẬT để hiển thị ảnh)
 function PostCard({ slug, title, date, tags, image, description, onTagClick }) {
     
-    // LOGIC KHẮC PHỤC: Xử lý đường dẫn ảnh từ Front Matter (loại bỏ public/)
+    // Logic xử lý đường dẫn ảnh từ Front Matter (loại bỏ public/)
     const cleanedImagePath = image 
         ? image.startsWith('public/') 
             ? image.substring('public/'.length) 
@@ -127,38 +133,48 @@ function PostCard({ slug, title, date, tags, image, description, onTagClick }) {
         : null;
 
     return (
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex space-x-4">
+        // ⚠️ KHẮC PHỤC THEME: Thay thế bg-white dark:bg-gray-800 bằng inline style
+        <div 
+            className="p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex space-x-4"
+            style={{ backgroundColor: 'var(--card-background)', color: 'var(--foreground)' }}
+        >
             
             {/* KHU VỰC ẢNH THUMBNAIL (Bên trái) */}
             {cleanedImagePath && (
-                <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden shadow-sm">
-                    {/* Sử dụng thẻ img đơn giản cho thumbnail */}
-                    <img 
-                        src={`/${cleanedImagePath}`} 
+                <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden shadow-sm relative"> 
+                    {/* ⚠️ KHẮC PHỤC CẢNH BÁO <img>: Thay thế <img> bằng <Image /> */}
+                    <Image 
+                        src={`/${cleanedImagePath}`} // Đường dẫn phải bắt đầu bằng /
                         alt={`Ảnh bìa ${title}`} 
-                        className="w-full h-full object-cover" 
+                        fill // Dùng fill để lấp đầy div cha có thuộc tính relative
+                        sizes="(max-width: 640px) 100vw, 30vw" // Tối ưu hóa hiệu suất Next.js
+                        style={{ objectFit: "cover" }} // Thay class object-cover
                     />
                 </div>
             )}
 
             {/* KHU VỰC NỘI DUNG (Bên phải) */}
             <div className="flex-grow">
+                {/* ⚠️ KHẮC PHỤC THEME: Xóa class màu chữ Tailwind */}
                 <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 hover:underline">
                     <Link href={`/blog/${slug}`}>
                         {title}
                     </Link>
                 </h2>
                 {/* Mô tả ngắn/tóm tắt */}
+                {/* ⚠️ KHẮC PHỤC THEME: Xóa class màu chữ Tailwind */}
                 {description && (
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mt-1 line-clamp-2">
+                    <p className="text-sm mt-1 line-clamp-2">
                         {description}
                     </p>
                 )}
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                {/* ⚠️ KHẮC PHỤC THEME: Xóa class màu chữ Tailwind */}
+                <p className="text-sm mt-2">
                     Ngày: {new Date(date).toLocaleDateString('vi-VN')}
                 </p>
                 
                 {/* Hiển thị Tags trong PostCard */}
+                {/* ⚠️ KHẮC PHỤC THEME: Vẫn giữ lại Tailwind cho styling button tag */}
                 <div className="mt-2 space-x-2">
                     {tags && Array.isArray(tags) && tags.map(tag => (
                         <button 
